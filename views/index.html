@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <title>Bo demo</title>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+      <style>
+        @import url('https://fonts.googleapis.com/css?family=Saira+Semi+Condensed');
+        @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+
+        body {
+          background-color: #000;
+          color: #fff;
+          font-family: 'Saira Semi Condensed', sans-serif;
+          font-size: 24px;
+        }
+
+        .messages {
+          list-style-type: none;
+          max-width: 400px;
+          margin: 60px auto;
+        }  
+
+        .messages li {
+          margin: 10px;
+          padding: 20px;
+          border-bottom: 1px solid rgba(255,255,255, 0.3);
+        }
+
+        .messages .question {
+          text-align: left;
+          padding-right: 50px;
+        }
+
+        .messages .response {
+          text-align: right;
+          padding-left: 50px;
+        }
+
+      </style>
+  </head>
+  <body>
+    <ul id="messages" class="messages">
+    </ul>
+    <script src="app.js"></script>
+  </body>
+</html>
