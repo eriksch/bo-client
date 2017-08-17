@@ -9,7 +9,7 @@ const app = express();
 
 // Path to watch for changes 
 const DEMO_WATCH_PATH = 'data/request.txt';
-const PROD_WATCH_PATH = 'speech.txt';
+const PROD_WATCH_PATH = '/home/pi/uapi/Products/uapi/server/nuance.txt';
 const WATCH_PATH = process.env.npm_lifecycle_event === 'demo' ? DEMO_WATCH_PATH : PROD_WATCH_PATH;
 
 // UserVoiceCommandWatcher

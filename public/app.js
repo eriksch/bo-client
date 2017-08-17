@@ -1,5 +1,5 @@
 const host = window.document.location.host.replace(/:.*/, '');
-const accessToken = 'ce706867b29240929da17b5eb19ef79b';
+const accessToken = '5199210cf8e04a95813e66efe9c59693';
 const baseUrl = 'https://api.api.ai/v1/';
 const messageSorry = "I'm sorry, I don't have the answer to that yet.";
 
