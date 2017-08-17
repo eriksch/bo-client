@@ -56,7 +56,7 @@ function send(msg) {
       val = messageSorry;
     }
  
-    $('#messages').prepend('<li class="response animated fadeInUp">' + val + '</li>');
+    $('#messages').prepend('<li class="response animated fadeInDown">' + val + '</li>');
     
     var msg = new SpeechSynthesisUtterance();
     msg.voiceURI = "native";
@@ -66,5 +66,5 @@ function send(msg) {
   }
 
   function addQuestion(msg) {
-    $('#messages').prepend('<li class="question animated fadeInUp">' + msg + '</li>');
+    $('#messages').prepend('<li class="question animated fadeInDown">' + msg + '</li>');
   }
