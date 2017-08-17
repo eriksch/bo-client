@@ -8,25 +8,41 @@ const fs = require('fs');
 const app = express();
 
 // Path to watch for changes 
-const WATCH_PATH = 'data/request.txt';
+const DEMO_WATCH_PATH = 'data/request.txt';
+const PROD_WATCH_PATH = 'speech.txt';
+const WATCH_PATH = process.env.npm_lifecycle_event === 'demo' ? DEMO_WATCH_PATH : PROD_WATCH_PATH;
 
 // UserVoiceCommandWatcher
 function UserVoiceCommandWatcher(ws) {
   const watcher = filewatcher();
 
   // read reqest from file
-  readRequest = () => fs.readFileSync(WATCH_PATH, {encoding: 'utf-8'});
+  readRequest = () => {
+
+    // read contents
+    let contents = fs.readFileSync(WATCH_PATH, {encoding: 'utf-8'});
+    if (!contents) return "";
+
+    // split on newlines
+    let lines = contents.split("\n");
+
+    // return first lines else just return string;
+    if (lines instanceof Array && lines.length > 0) {
+      return lines[0];
+    } else {
+      return lines;
+    }
+  }
 
   // watch the user voice request
   watcher.add(WATCH_PATH);
 
   // and act when this file changes
   watcher.on('change', (file, stat) => {
-    console.log('File modified: %s', file, readRequest());
-    if (!stat) console.log('deleted');
     ws.send(JSON.stringify(readRequest()));
   });
 
+  // Return stop method to do cleanup
   return {
     stop: () => {
       watcher.removeAll();
@@ -42,11 +58,12 @@ app.get('/', function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-// listen for requests :)
+// listen for http requests :)
 var listener = app.listen(8000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
+// Create new websocket server
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
@@ -68,7 +85,7 @@ wss.on('connection', (ws, req) => {
   });
 });
 
-// websocket
+// listen on websocket
 server.listen(8080, () => {
   console.log('Listening on %d', server.address().port);
 });
@@ -81,9 +98,12 @@ const questions = [
 ];
 
 function randomRequest() {
-  setInterval(() => {
+  setInterval(() => {  
       fs.writeFileSync(WATCH_PATH, questions[Math.floor(Math.random() * 3)]);
   }, 5000);
 }
 
-randomRequest();
+if (process.env.npm_lifecycle_event === 'demo') {
+  randomRequest();
+}
+
