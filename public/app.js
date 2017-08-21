@@ -26,6 +26,12 @@ $(window).on('keydown', function(event) {
     case 52:
       msg = 'whats it about?';
       break;
+case 53:
+	msg = 'yes';
+break;
+case 54:
+	msg = 'no';
+break;
     default:
       return;
   }
@@ -43,9 +49,14 @@ function handleMessage(message) {
   switch(message) {
     case 'ON_AUDIO_START':
       $('.sk-folding-cube').show();
-    break;
+   	setTimeout(function() {
+		$('.sk-folding-cube').hide();
+	}, 9000); 
+   break;
     case 'ON_AUDIO_END':
-      $('.sk-folding-cube').hide();
+      setTimeout(function() {
+      	$('.sk-folding-cube').hide();
+	}, 3000);
     break;
     default:
       showMessage(message);
@@ -55,9 +66,8 @@ function handleMessage(message) {
 
 function showMessage(msg) {
     addQuestion(msg);
-    window.setTimeout(function() {
-        send(msg);
-    }, 1000);
+    send(msg);
+   
 }
 
 function send(msg) {

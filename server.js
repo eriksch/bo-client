@@ -17,7 +17,8 @@ const WATCH_PATH = process.env.npm_lifecycle_event === 'demo' ? DEMO_WATCH_PATH 
 // Setting for reading audio stream start and end messages
 const MULTICAST_ADDRESS = '224.224.24.1';
 const MULTICAST_PORT = 40011;
-const HOST = '192.168.3.61';
+const HOST = '192.168.1.46';
+//const HOST = '224.244.24.1';
 
 // UserVoiceCommandWatcher
 function UserVoiceCommandWatcher(ws) {
@@ -33,24 +34,31 @@ function UserVoiceCommandWatcher(ws) {
   });
 
   socket.on('message', (message) => {
-
+//	console.log(message);
     let foundStart = (msg) => {
-      let first = msg.indexOf(0x36);
-      let second = msg.indexOf(0x41);
-      return (first === 19 && second == 20)
+	if (msg.length < 27) return false;
+      let first = msg[26];
+      let second = msg[27];
+  //
+
+//  console.log('start', first, second);
+	  return (first == 0x36 && second == 0x41)
     }
 
     let foundEnd = (msg) => {
-      let first = msg.indexOf(0x36);
-      let second = msg.indexOf(0x43);
-      return (first === 17 && second == 18)
+      let first = msg[26];
+      let second = msg[27];
+//	console.log('end', first, second);
+      return (first == 0x36 && second == 0x43)
     }
 
     if (foundStart(message)) {
-      ws.send(JSON.stringify('ON_AUDIO_START'));
+      console.log('found start');
+	ws.send(JSON.stringify('ON_AUDIO_START'));
     }
 
     if (foundEnd(message)) {
+	console.log('found end');
       ws.send(JSON.stringify('ON_AUDIO_END'));
     }
 
@@ -58,7 +66,7 @@ function UserVoiceCommandWatcher(ws) {
   });
 
   // bind to multicast address
-  socket.bind(MULTICAST_PORT, HOST);
+  socket.bind(MULTICAST_PORT);
 
   // watch the user voice request
   watcher.add(WATCH_PATH);
