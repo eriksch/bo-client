@@ -3,48 +3,190 @@
   <head>
       <meta charset="utf-8">
       <title>Bo demo</title>
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+      <script src="jquery.min.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="stylesheet" href="cf-theming.css?v=1.0.0">
+      <link rel="stylesheet" href="conversational-form.min.css">
+
       <style>
         @import url('https://fonts.googleapis.com/css?family=Saira+Semi+Condensed');
-        @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
 
         body {
-          background-color: #000;
-          color: #fff;
+          background-color: #fff;
+          color: #000;
           font-family: 'Saira Semi Condensed', sans-serif;
           font-size: 24px;
         }
 
-        .messages {
-          list-style-type: none;
-          max-width: 400px;
-          margin: 60px auto;
-          max-height: 300px;
-          overflow: hidden;
-        }  
-
-        .messages li {
-          margin: 10px;
-          padding: 20px;
-          border-bottom: 1px solid rgba(255,255,255, 0.3);
+        .conversational-form:before {
+          content: none;
         }
 
-        .messages .question {
-          text-align: left;
-          padding-right: 50px;
+        .robot thumb {
+          background-image: url(data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8ZyBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtNzY0LjAwMDAwMCwgLTUzMC4wMDAwMDApIiBmaWxsPSIjMjIyMjIyIj4KICAgICAgICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzUzLjAwMDAwMCwgNTE5LjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHJlY3QgeD0iMTEiIHk9IjExIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiPjwvcmVjdD4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+);
         }
 
-        .messages .response {
-          text-align: right;
-          padding-left: 50px;
+        .user thumb {
+          background-image: url(data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3aWR0aD0iMjBweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMjAgMTYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8ZyBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTM3MS4wMDAwMDAsIC02MTAuMDAwMDAwKSIgZmlsbD0iI0ZGRkZGRiI+CiAgICAgICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyNzQuMDAwMDAwLCA1OTkuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICA8cG9seWdvbiBwb2ludHM9IjEwNyAxMSAxMTcgMjcgOTcgMjciPjwvcG9seWdvbj4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+);
+        }
+
+        cf-chat {
+          justify-content: flex-start;
+        }
+
+        .conversational-form .conversational-form-inner {
+          justify-content: flex-start;
+        }
+
+        main.content .conversational-form {
+          overflow: visible;
+          max-width: 600px;
+        }
+
+        cf-chat-response.show:nth-of-type(3) text,
+        cf-chat-response.show:nth-of-type(3) thumb { opacity: 0.8; }
+
+        cf-chat-response.show:nth-of-type(4) text,
+        cf-chat-response.show:nth-of-type(4) thumb { opacity: 0.5; }
+
+        cf-chat-response.show:nth-of-type(5) text,
+        cf-chat-response.show:nth-of-type(5) thumb { opacity: 0.2; }
+
+        cf-chat-response.show:nth-of-type(6) text,
+        cf-chat-response.show:nth-of-type(6) thumb  { opacity: 0.1; }
+
+        cf-chat-response.show:nth-of-type(7) text,
+        cf-chat-response.show:nth-of-type(7) thumb { opacity: 0; }
+        cf-chat-response.show:nth-of-type(8) text,
+        cf-chat-response.show:nth-of-type(8) thumb { opacity: 0; }
+        cf-chat-response.show:nth-of-type(9) text,
+        cf-chat-response.show:nth-of-type(9) thumb { opacity: 0; }
+        cf-chat-response.show:nth-of-type(10) text,
+        cf-chat-response.show:nth-of-type(10) thumb { opacity: 0; }
+        cf-chat-response.show:nth-of-type(11) text,
+        cf-chat-response.show:nth-of-type(11) thumb { opacity: 0; }
+        cf-chat-response.show:nth-of-type(12) text,
+        cf-chat-response.show:nth-of-type(12) thumb { opacity: 0; }
+        cf-chat-response.show:nth-of-type(13) text,
+        cf-chat-response.show:nth-of-type(13) thumb { opacity: 0; }
+        cf-chat-response.show:nth-of-type(14) text,
+        cf-chat-response.show:nth-of-type(14) thumb { opacity: 0; }
+        cf-chat-response.show:nth-of-type(15) text,
+        cf-chat-response.show:nth-of-type(15) thumb { opacity: 0; }
+
+        .sk-folding-cube {
+          display: none;
+          margin: 20px auto;
+          width: 40px;
+          height: 40px;
+          position: absolute;
+          top: 20px;
+          right: -40px;
+          -webkit-transform: rotateZ(45deg);
+          transform: rotateZ(45deg);
+        }
+
+        .sk-folding-cube .sk-cube {
+          float: left;
+          width: 50%;
+          height: 50%;
+          position: relative;
+          -webkit-transform: scale(1.1);
+          -ms-transform: scale(1.1);
+          transform: scale(1.1);
+        }
+        .sk-folding-cube .sk-cube:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: #333;
+          -webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
+          animation: sk-foldCubeAngle 2.4s infinite linear both;
+          -webkit-transform-origin: 100% 100%;
+          -ms-transform-origin: 100% 100%;
+          transform-origin: 100% 100%;
+        }
+        .sk-folding-cube .sk-cube2 {
+          -webkit-transform: scale(1.1) rotateZ(90deg);
+          transform: scale(1.1) rotateZ(90deg);
+        }
+        .sk-folding-cube .sk-cube3 {
+          -webkit-transform: scale(1.1) rotateZ(180deg);
+          transform: scale(1.1) rotateZ(180deg);
+        }
+        .sk-folding-cube .sk-cube4 {
+          -webkit-transform: scale(1.1) rotateZ(270deg);
+          transform: scale(1.1) rotateZ(270deg);
+        }
+        .sk-folding-cube .sk-cube2:before {
+          -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s;
+        }
+        .sk-folding-cube .sk-cube3:before {
+          -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
+        }
+        .sk-folding-cube .sk-cube4:before {
+          -webkit-animation-delay: 0.9s;
+          animation-delay: 0.9s;
+        }
+        @-webkit-keyframes sk-foldCubeAngle {
+          0%, 10% {
+            -webkit-transform: perspective(140px) rotateX(-180deg);
+            transform: perspective(140px) rotateX(-180deg);
+            opacity: 0;
+          } 25%, 75% {
+              -webkit-transform: perspective(140px) rotateX(0deg);
+              transform: perspective(140px) rotateX(0deg);
+              opacity: 1;
+            } 90%, 100% {
+                -webkit-transform: perspective(140px) rotateY(180deg);
+                transform: perspective(140px) rotateY(180deg);
+                opacity: 0;
+              }
+        }
+
+        @keyframes sk-foldCubeAngle {
+          0%, 10% {
+            -webkit-transform: perspective(140px) rotateX(-180deg);
+            transform: perspective(140px) rotateX(-180deg);
+            opacity: 0;
+          } 25%, 75% {
+              -webkit-transform: perspective(140px) rotateX(0deg);
+              transform: perspective(140px) rotateX(0deg);
+              opacity: 1;
+            } 90%, 100% {
+                -webkit-transform: perspective(140px) rotateY(180deg);
+                transform: perspective(140px) rotateY(180deg);
+                opacity: 0;
+              }
         }
 
       </style>
   </head>
   <body>
-    <ul id="messages" class="messages">
-    </ul>
+    <main id="conversational-form-docs" class="content cf-toggle">
+      <section id="cf-context" role="cf-context" cf-context="">
+        <div id="conversational-form" class="conversational-form conversational-form--enable-animation conversational-form--show">
+
+          <div class="sk-folding-cube">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+          </div>
+
+          <div class="conversational-form-inner">
+            <cf-chat type="pluto" style="max-height: 800px;">
+              <scrollable id="messages"></scrollable>
+            </cf-chat>
+          </div>
+        </div>
+      </section>
+    </main>
     <script src="app.js"></script>
   </body>
 </html>
