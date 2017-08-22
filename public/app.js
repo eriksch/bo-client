@@ -26,12 +26,12 @@ $(window).on('keydown', function(event) {
     case 52:
       msg = 'whats it about?';
       break;
-case 53:
-	msg = 'yes';
-break;
-case 54:
-	msg = 'no';
-break;
+    case 53:
+      msg = 'yes';
+    break;
+    case 54:
+      msg = 'no';
+    break;
     default:
       return;
   }
@@ -51,7 +51,7 @@ function handleMessage(message) {
       $('.sk-folding-cube').show();
    	setTimeout(function() {
 		$('.sk-folding-cube').hide();
-	}, 9000); 
+	}, 9000);
    break;
     case 'ON_AUDIO_END':
       setTimeout(function() {
@@ -67,7 +67,7 @@ function handleMessage(message) {
 function showMessage(msg) {
     addQuestion(msg);
     send(msg);
-   
+
 }
 
 function send(msg) {
@@ -97,8 +97,6 @@ function prepareResponse(data) {
     spokenResponse = data.result.fulfillment.speech;
     respond(spokenResponse);
   }
-
-
 }
 
 function respondWithImage(path) {
@@ -109,8 +107,6 @@ function respond(val) {
   if (val == "") {
     val = messageSorry;
   }
-
-  //if (indexOf('http://') )
 
   $('#messages').prepend('<cf-chat-response class="robot peak-thumb show animated fadeIn"><thumb></thumb><text><p class="show">' + val +'</p></text></cf-chat-response>');
 
