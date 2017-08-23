@@ -10,16 +10,36 @@ console.log('host', host, 'baseUrl', baseUrl, 'accessToken', accessToken);
 var ws = new WebSocket('ws://' + host + ':8080');
 
 ws.onerror = () => showDebug('WebSocket error');
-ws.onopen = () => showDebug('WebSocket connection established');
+ws.onopen = () => {
+  showDebug('WebSocket connection established');
+
+  setTimeout(() => {
+    client.eventRequest("WELCOME")
+      .then(function(data) {
+        prepareResponse(data);
+      })
+      .catch(function() {
+        respond("Connection could not be established");
+      });
+  }, 0);
+
+};
 ws.onclose = () => showDebug('WebSocket connection closed');
 ws.onmessage = (event) => handleMessage(JSON.parse(event.data));
 
+let buffer = "";
+
 $(window).on('keydown', function(event) {
   let msg = '';
+  let genres = ["action", "adventure", "animation", "comedy", "romantic comedy", "crime", "drama", "family", "fantasy", "history", "horror", "music", "mystery", "romance", "science fiction", "tv movie", "thriller", "war", "western"];
+  let cities = ["berlin", "amsterdam", "paris", "london", "rome", "washington"];
+
+  console.log(event.keyCode, event);
+
   switch (event.keyCode) {
     case 50:
-        msg = 'can you recommend me an Action movie?';
-      break;
+      msg = `can you recommend me an ${genres[Math.floor(Math.random() * genres.length)]} movie?`;
+    break;
     case 51:
       msg = 'can you show me the poster?';
     break;
@@ -32,8 +52,34 @@ $(window).on('keydown', function(event) {
     case 54:
       msg = 'no';
     break;
+
+    case 55:
+      msg = `can you recommend me a movie to watch?`;
+    break;
+    case 56:
+      msg = genres[Math.floor(Math.random() * genres.length)];
+    break;
+
+    case 57:
+      msg = 'What the weather like tomorrow';
+    break;
+
+    case 48:
+      msg = cities[Math.floor(Math.random() * cities.length)];
+    break;
+    case 80: // p
+      msg = 'today';
+    break;
+
+    case 13:
+      if (buffer.length < 1) return;
+      msg = buffer;
+      buffer = "";
+    break;
     default:
+      buffer += event.key;
       return;
+    break;
   }
 
   addQuestion(msg)
