@@ -146,7 +146,7 @@ wss.on('connection', (ws, req) => {
 });
 
 // listen on websocket
-server.listen(8080, () => {
+server.listen(8001, () => {
   console.log('Listening on %d', server.address().port);
 });
 

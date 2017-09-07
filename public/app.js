@@ -7,7 +7,7 @@ const session = Math.random();
 
 console.log('host', host, 'baseUrl', baseUrl, 'accessToken', accessToken);
 
-var ws = new WebSocket('ws://' + host + ':8080');
+var ws = new WebSocket('ws://' + host + ':8001');
 
 ws.onerror = () => showDebug('WebSocket error');
 ws.onopen = () => {
